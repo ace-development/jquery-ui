@@ -21,9 +21,9 @@
 }(function( $ ) {
 
 // $.ui might exist from components with no dependencies, e.g., $.ui.position
-$.ui = $.ui || {};
+$["vc-ui"] = $["vc-ui"] || {};
 
-$.extend( $.ui, {
+$.extend( $["vc-ui"], {
 	version: "1.11.4",
 
 	keyCode: {
@@ -48,7 +48,7 @@ $.extend( $.ui, {
 
 // plugins
 $.fn.extend({
-	scrollParent: function( includeHidden ) {
+	"vcScrollParent": function( includeHidden ) {
 		var position = this.css( "position" ),
 			excludeStaticParent = position === "absolute",
 			overflowRegex = includeHidden ? /(auto|scroll|hidden)/ : /(auto|scroll)/,
@@ -63,21 +63,21 @@ $.fn.extend({
 		return position === "fixed" || !scrollParent.length ? $( this[ 0 ].ownerDocument || document ) : scrollParent;
 	},
 
-	uniqueId: (function() {
+	"vcUniqueId": (function() {
 		var uuid = 0;
 
 		return function() {
 			return this.each(function() {
 				if ( !this.id ) {
-					this.id = "ui-id-" + ( ++uuid );
+					this.id = "vc-ui-id-" + ( ++uuid );
 				}
 			});
 		};
 	})(),
 
-	removeUniqueId: function() {
+	"vcRemoveUniqueId": function() {
 		return this.each(function() {
-			if ( /^ui-id-\d+$/.test( this.id ) ) {
+			if ( /^vc-ui-id-\d+$/.test( this.id ) ) {
 				$( this ).removeAttr( "id" );
 			}
 		});
@@ -114,7 +114,7 @@ function visible( element ) {
 }
 
 $.extend( $.expr[ ":" ], {
-	data: $.expr.createPseudo ?
+	"vcData": $.expr.createPseudo ?
 		$.expr.createPseudo(function( dataName ) {
 			return function( elem ) {
 				return !!$.data( elem, dataName );
@@ -125,11 +125,11 @@ $.extend( $.expr[ ":" ], {
 			return !!$.data( elem, match[ 3 ] );
 		},
 
-	focusable: function( element ) {
+	"vcFocusable": function( element ) {
 		return focusable( element, !isNaN( $.attr( element, "tabindex" ) ) );
 	},
 
-	tabbable: function( element ) {
+	"vcTabbable": function( element ) {
 		var tabIndex = $.attr( element, "tabindex" ),
 			isTabIndexNaN = isNaN( tabIndex );
 		return ( isTabIndexNaN || tabIndex >= 0 ) && focusable( element, !isTabIndexNaN );
@@ -206,10 +206,10 @@ if ( $( "<a>" ).data( "a-b", "a" ).removeData( "a-b" ).data( "a-b" ) ) {
 }
 
 // deprecated
-$.ui.ie = !!/msie [\w.]+/.exec( navigator.userAgent.toLowerCase() );
+$["vc-ui"].ie = !!/msie [\w.]+/.exec( navigator.userAgent.toLowerCase() );
 
 $.fn.extend({
-	focus: (function( orig ) {
+	"vcFocus": (function( orig ) {
 		return function( delay, fn ) {
 			return typeof delay === "number" ?
 				this.each(function() {
@@ -225,23 +225,23 @@ $.fn.extend({
 		};
 	})( $.fn.focus ),
 
-	disableSelection: (function() {
+	"vcDisableSelection": (function() {
 		var eventType = "onselectstart" in document.createElement( "div" ) ?
 			"selectstart" :
 			"mousedown";
 
 		return function() {
-			return this.bind( eventType + ".ui-disableSelection", function( event ) {
+			return this.bind( eventType + ".vc-ui-disableSelection", function( event ) {
 				event.preventDefault();
 			});
 		};
 	})(),
 
-	enableSelection: function() {
-		return this.unbind( ".ui-disableSelection" );
+	"vcEnableSelection": function() {
+		return this.unbind( ".vc-ui-disableSelection" );
 	},
 
-	zIndex: function( zIndex ) {
+	"vczIndex": function( zIndex ) {
 		if ( zIndex !== undefined ) {
 			return this.css( "zIndex", zIndex );
 		}
@@ -271,11 +271,11 @@ $.fn.extend({
 	}
 });
 
-// $.ui.plugin is deprecated. Use $.widget() extensions instead.
-$.ui.plugin = {
+// $["vc-ui"].plugin is deprecated. Use $.widget() extensions instead.
+$["vc-ui"].plugin = {
 	add: function( module, option, set ) {
 		var i,
-			proto = $.ui[ module ].prototype;
+			proto = $["vc-ui"][ module ].prototype;
 		for ( i in set ) {
 			proto.plugins[ i ] = proto.plugins[ i ] || [];
 			proto.plugins[ i ].push( [ option, set[ i ] ] );

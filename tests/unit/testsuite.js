@@ -94,7 +94,7 @@ TestHelpers.testJshint = function( module ) {
 				dataType: "json"
 			}),
 			$.ajax({
-				url: url( "../../../ui/" + module + ".js" ),
+				url: url( "../../../ui/" + module.replace('vc','').toLowerCase() + ".js" ),
 				dataType: "text"
 			})
 		).done(function( hintArgs, srcArgs ) {
@@ -126,7 +126,7 @@ TestHelpers.testJshint = function( module ) {
 };
 
 function testWidgetDefaults( widget, defaults ) {
-	var pluginDefaults = $.ui[ widget ].prototype.options;
+	var pluginDefaults = $["vc-ui"][ widget ].prototype.options;
 
 	// Ensure that all defaults have the correct value
 	test( "defined defaults", function() {
@@ -161,7 +161,7 @@ function testWidgetOverrides( widget ) {
 				"option",
 				"_trigger"
 			], function( i, method ) {
-				strictEqual( $.ui[ widget ].prototype[ method ],
+				strictEqual( $["vc-ui"][ widget ].prototype[ method ],
 					$.Widget.prototype[ method ], "should not override " + method );
 			});
 		});
@@ -172,7 +172,7 @@ function testBasicUsage( widget ) {
 	test( "basic usage", function() {
 		expect( 3 );
 
-		var defaultElement = $.ui[ widget ].prototype.defaultElement;
+		var defaultElement = $["vc-ui"][ widget ].prototype.defaultElement;
 		$( defaultElement ).appendTo( "body" )[ widget ]().remove();
 		ok( true, "initialized on element" );
 
@@ -194,7 +194,7 @@ TestHelpers.commonWidgetTests = function( widget, settings ) {
 	testBasicUsage( widget );
 	test( "version", function() {
 		expect( 1 );
-		ok( "version" in $.ui[ widget ].prototype, "version property exists" );
+		ok( "version" in $["vc-ui"][ widget ].prototype, "version property exists" );
 	});
 };
 

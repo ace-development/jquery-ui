@@ -45,7 +45,7 @@
 	</style>
 	<script>
 	$(function() {
-		$( ".column" ).sortable({
+		$( ".column" ).vcSortable({
 			connectWith: ".column",
 			handle: ".portlet-header",
 			cancel: ".portlet-toggle",
@@ -53,14 +53,14 @@
 		});
 
 		$( ".portlet" )
-			.addClass( "ui-widget ui-widget-content ui-helper-clearfix ui-corner-all" )
+			.addClass( "vc-ui-widget vc-ui-widget-content vc-ui-helper-clearfix vc-ui-corner-all" )
 			.find( ".portlet-header" )
-				.addClass( "ui-widget-header ui-corner-all" )
-				.prepend( "<span class='ui-icon ui-icon-minusthick portlet-toggle'></span>");
+				.addClass( "vc-ui-widget-header vc-ui-corner-all" )
+				.prepend( "<span class='vc-ui-icon vc-ui-icon-minusthick portlet-toggle'></span>");
 
 		$( ".portlet-toggle" ).click(function() {
 			var icon = $( this );
-			icon.toggleClass( "ui-icon-minusthick ui-icon-plusthick" );
+			icon.toggleClass( "vc-ui-icon-minusthick vc-ui-icon-plusthick" );
 			icon.closest( ".portlet" ).find( ".portlet-content" ).toggle();
 		});
 	});

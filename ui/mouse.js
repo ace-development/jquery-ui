@@ -28,7 +28,7 @@ $( document ).mouseup( function() {
 	mouseHandled = false;
 });
 
-return $.widget("ui.mouse", {
+return $.vc_widget("vc-ui.vcMouse", {
 	version: "1.11.4",
 	options: {
 		cancel: "input,textarea,button,select,option",
@@ -131,7 +131,7 @@ return $.widget("ui.mouse", {
 		// Support: IE <9
 		if ( this._mouseMoved ) {
 			// IE mouseup check - mouseup happened when mouse was out of window
-			if ($.ui.ie && ( !document.documentMode || document.documentMode < 9 ) && !event.button) {
+			if ($["vc-ui"].ie && ( !document.documentMode || document.documentMode < 9 ) && !event.button) {
 				return this._mouseUp(event);
 
 			// Iframe mouseup check - mouseup occurred in another document

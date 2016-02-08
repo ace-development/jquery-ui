@@ -1,4 +1,4 @@
-TestHelpers.sortable = {
+TestHelpers.vcSortable = {
 	sort: function( handle, dx, dy, index, msg ) {
 		$( handle ).simulate( "drag", {
 			dx: dx,

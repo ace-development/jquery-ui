@@ -42,7 +42,7 @@ $.cleanData = (function( orig ) {
 	};
 })( $.cleanData );
 
-$.widget = function( name, base, prototype ) {
+$.vc_widget = function( name, base, prototype ) {
 	var fullName, existingConstructor, constructor, basePrototype,
 		// proxiedPrototype allows the provided prototype to remain unmodified
 		// so that it can be used as a mixin for multiple widgets (#8876)
@@ -54,7 +54,7 @@ $.widget = function( name, base, prototype ) {
 
 	if ( !prototype ) {
 		prototype = base;
-		base = $.Widget;
+		base = $.vc_Widget;
 	}
 
 	// create selector for plugin
@@ -91,7 +91,7 @@ $.widget = function( name, base, prototype ) {
 	// we need to make the options hash a property directly on the new instance
 	// otherwise we'll modify the options hash on the prototype that we're
 	// inheriting from
-	basePrototype.options = $.widget.extend( {}, basePrototype.options );
+	basePrototype.options = $.vc_widget.extend( {}, basePrototype.options );
 	$.each( prototype, function( prop, value ) {
 		if ( !$.isFunction( value ) ) {
 			proxiedPrototype[ prop ] = value;
@@ -121,7 +121,7 @@ $.widget = function( name, base, prototype ) {
 			};
 		})();
 	});
-	constructor.prototype = $.widget.extend( basePrototype, {
+	constructor.prototype = $.vc_widget.extend( basePrototype, {
 		// TODO: remove support for widgetEventPrefix
 		// always use the name + a colon as the prefix, e.g., draggable:start
 		// don't prefix for widgets that aren't DOM-based
@@ -152,12 +152,12 @@ $.widget = function( name, base, prototype ) {
 		base._childConstructors.push( constructor );
 	}
 
-	$.widget.bridge( name, constructor );
+	$.vc_widget.bridge( name, constructor );
 
 	return constructor;
 };
 
-$.widget.extend = function( target ) {
+$.vc_widget.extend = function( target ) {
 	var input = widget_slice.call( arguments, 1 ),
 		inputIndex = 0,
 		inputLength = input.length,
@@ -170,9 +170,9 @@ $.widget.extend = function( target ) {
 				// Clone objects
 				if ( $.isPlainObject( value ) ) {
 					target[ key ] = $.isPlainObject( target[ key ] ) ?
-						$.widget.extend( {}, target[ key ], value ) :
+						$.vc_widget.extend( {}, target[ key ], value ) :
 						// Don't extend strings, arrays, etc. with objects
-						$.widget.extend( {}, value );
+						$.vc_widget.extend( {}, value );
 				// Copy everything else by reference
 				} else {
 					target[ key ] = value;
@@ -183,7 +183,7 @@ $.widget.extend = function( target ) {
 	return target;
 };
 
-$.widget.bridge = function( name, object ) {
+$.vc_widget.bridge = function( name, object ) {
 	var fullName = object.prototype.widgetFullName || name;
 	$.fn[ name ] = function( options ) {
 		var isMethodCall = typeof options === "string",
@@ -217,7 +217,7 @@ $.widget.bridge = function( name, object ) {
 
 			// Allow multiple hashes to be passed on init
 			if ( args.length ) {
-				options = $.widget.extend.apply( null, [ options ].concat(args) );
+				options = $.vc_widget.extend.apply( null, [ options ].concat(args) );
 			}
 
 			this.each(function() {
@@ -237,11 +237,11 @@ $.widget.bridge = function( name, object ) {
 	};
 };
 
-$.Widget = function( /* options, element */ ) {};
-$.Widget._childConstructors = [];
+$.vc_Widget = function( /* options, element */ ) {};
+$.vc_Widget._childConstructors = [];
 
-$.Widget.prototype = {
-	widgetName: "widget",
+$.vc_Widget.prototype = {
+	widgetName: "vc_widget",
 	widgetEventPrefix: "",
 	defaultElement: "<div>",
 	options: {
@@ -277,7 +277,7 @@ $.Widget.prototype = {
 			this.window = $( this.document[0].defaultView || this.document[0].parentWindow );
 		}
 
-		this.options = $.widget.extend( {},
+		this.options = $.vc_widget.extend( {},
 			this.options,
 			this._getCreateOptions(),
 			options );
@@ -303,15 +303,15 @@ $.Widget.prototype = {
 			.removeData( $.camelCase( this.widgetFullName ) );
 		this.widget()
 			.unbind( this.eventNamespace )
-			.removeAttr( "aria-disabled" )
+			.removeAttr( "vc-ui-aria-disabled" )
 			.removeClass(
 				this.widgetFullName + "-disabled " +
-				"ui-state-disabled" );
+				"vc-ui-state-disabled" );
 
 		// clean up events and states
 		this.bindings.unbind( this.eventNamespace );
-		this.hoverable.removeClass( "ui-state-hover" );
-		this.focusable.removeClass( "ui-state-focus" );
+		this.hoverable.removeClass( "vc-ui-state-hover" );
+		this.focusable.removeClass( "vc-ui-state-focus" );
 	},
 	_destroy: $.noop,
 
@@ -327,7 +327,7 @@ $.Widget.prototype = {
 
 		if ( arguments.length === 0 ) {
 			// don't return a reference to the internal hash
-			return $.widget.extend( {}, this.options );
+			return $.vc_widget.extend( {}, this.options );
 		}
 
 		if ( typeof key === "string" ) {
@@ -336,7 +336,7 @@ $.Widget.prototype = {
 			parts = key.split( "." );
 			key = parts.shift();
 			if ( parts.length ) {
-				curOption = options[ key ] = $.widget.extend( {}, this.options[ key ] );
+				curOption = options[ key ] = $.vc_widget.extend( {}, this.options[ key ] );
 				for ( i = 0; i < parts.length - 1; i++ ) {
 					curOption[ parts[ i ] ] = curOption[ parts[ i ] ] || {};
 					curOption = curOption[ parts[ i ] ];
@@ -376,8 +376,8 @@ $.Widget.prototype = {
 
 			// If the widget is becoming disabled, then nothing is interactive
 			if ( value ) {
-				this.hoverable.removeClass( "ui-state-hover" );
-				this.focusable.removeClass( "ui-state-focus" );
+				this.hoverable.removeClass( "vc-ui-state-hover" );
+				this.focusable.removeClass( "vc-ui-state-focus" );
 			}
 		}
 
@@ -419,7 +419,7 @@ $.Widget.prototype = {
 				// - disabled class as method for disabling individual parts
 				if ( !suppressDisabledCheck &&
 						( instance.options.disabled === true ||
-							$( this ).hasClass( "ui-state-disabled" ) ) ) {
+							$( this ).hasClass( "vc-ui-state-disabled" ) ) ) {
 					return;
 				}
 				return ( typeof handler === "string" ? instance[ handler ] : handler )
@@ -467,10 +467,10 @@ $.Widget.prototype = {
 		this.hoverable = this.hoverable.add( element );
 		this._on( element, {
 			mouseenter: function( event ) {
-				$( event.currentTarget ).addClass( "ui-state-hover" );
+				$( event.currentTarget ).addClass( "vc-ui-state-hover" );
 			},
 			mouseleave: function( event ) {
-				$( event.currentTarget ).removeClass( "ui-state-hover" );
+				$( event.currentTarget ).removeClass( "vc-ui-state-hover" );
 			}
 		});
 	},
@@ -479,10 +479,10 @@ $.Widget.prototype = {
 		this.focusable = this.focusable.add( element );
 		this._on( element, {
 			focusin: function( event ) {
-				$( event.currentTarget ).addClass( "ui-state-focus" );
+				$( event.currentTarget ).addClass( "vc-ui-state-focus" );
 			},
 			focusout: function( event ) {
-				$( event.currentTarget ).removeClass( "ui-state-focus" );
+				$( event.currentTarget ).removeClass( "vc-ui-state-focus" );
 			}
 		});
 	},
@@ -518,7 +518,7 @@ $.Widget.prototype = {
 };
 
 $.each( { show: "fadeIn", hide: "fadeOut" }, function( method, defaultEffect ) {
-	$.Widget.prototype[ "_" + method ] = function( element, options, callback ) {
+	$.vc_Widget.prototype[ "_" + method ] = function( element, options, callback ) {
 		if ( typeof options === "string" ) {
 			options = { effect: options };
 		}
@@ -553,6 +553,6 @@ $.each( { show: "fadeIn", hide: "fadeOut" }, function( method, defaultEffect ) {
 	};
 });
 
-return $.widget;
+return $.vc_widget;
 
 }));

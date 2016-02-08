@@ -19,7 +19,7 @@ test( "{ axis: false }, default", function() {
 	expect( 2 );
 
 	var offsetAfter,
-		element = $( "#sortable" ).sortable({
+		element = $( "#sortable" ).vcSortable({
 			axis: false,
 			change: function() {
 				offsetAfter = item.offset();
@@ -41,7 +41,7 @@ test( "{ axis: 'x' }", function() {
 	expect( 2 );
 
 	var offsetAfter,
-		element = $( "#sortable" ).sortable({
+		element = $( "#sortable" ).vcSortable({
 			axis: "x",
 			change: function() {
 				offsetAfter = item.offset();
@@ -63,7 +63,7 @@ test( "{ axis: 'y' }", function() {
 	expect( 2 );
 
 	var offsetAfter,
-		element = $( "#sortable" ).sortable({
+		element = $( "#sortable" ).vcSortable({
 			axis: "y",
 			change: function() {
 				offsetAfter = item.offset();
@@ -84,7 +84,7 @@ test( "{ axis: 'y' }", function() {
 asyncTest( "#7415: Incorrect revert animation with axis: 'y'", function() {
   expect( 2 );
 	var expectedLeft,
-		element = $( "#sortable" ).sortable({
+		element = $( "#sortable" ).vcSortable({
 			axis: "y",
 			revert: true,
 			stop: start,
@@ -127,7 +127,7 @@ test( "#8792: issues with floated items in connected lists", function() {
 		.find( "ul" ).css({ "float": "left", width: "100px" }).end()
 		.find( "li" ).css({ "float": "left", width: "50px", height: "50px" });
 
-	$( "#qunit-fixture .c" ).sortable({
+	$( "#qunit-fixture .c" ).vcSortable({
 		connectWith: "#qunit-fixture .c",
 		change: function() {
 			changeCount++;
@@ -157,14 +157,14 @@ test( "#8792: issues with floated items in connected lists", function() {
 test( "#8301: single axis with connected list", function() {
 	expect( 1 );
 
-	var element = $( "#sortable" ).sortable({
+	var element = $( "#sortable" ).vcSortable({
 		axis: "y",
 		tolerance: "pointer",
 		connectWith: ".connected"
 	});
 
 	$( "<ul class='connected'><li>Item 7</li><li>Item 8</li></ul>" )
-		.sortable({
+		.vcSortable({
 			axis: "y",
 			tolerance: "pointer",
 			connectWith: "#sortable",
@@ -330,7 +330,7 @@ test("{ placeholder: false }, default", function() {
 test( "{ placeholder: false } img", function() {
 	expect( 3 );
 
-	var element = $( "#sortable-images" ).sortable({
+	var element = $( "#sortable-images" ).vcSortable({
 		start: function( event, ui ) {
 			ok( ui.placeholder.attr( "src" ).indexOf( "images/jqueryui_32x32.png" ) > 0, "placeholder img has correct src" );
 			equal( ui.placeholder.height(), 32, "placeholder has correct height" );
@@ -346,7 +346,7 @@ test( "{ placeholder: false } img", function() {
 test( "{ placeholder: String }", function() {
 	expect( 1 );
 
-	var element = $( "#sortable" ).sortable({
+	var element = $( "#sortable" ).vcSortable({
 		placeholder: "test",
 		start: function( event, ui ) {
 			ok( ui.placeholder.hasClass( "test" ), "placeholder has class" );
@@ -362,7 +362,7 @@ test( "{ placholder: String } tr", function() {
 	expect( 4 );
 
 	var originalWidths,
-		element = $( "#sortable-table tbody" ).sortable({
+		element = $( "#sortable-table tbody" ).vcSortable({
 			placeholder: "test",
 			start: function( event, ui ) {
 				var currentWidths = otherRow.children().map(function() {
@@ -392,7 +392,7 @@ test( "{ placholder: String } tbody", function() {
 	expect( 6 );
 
 	var originalWidths,
-		element = $( "#sortable-table" ).sortable({
+		element = $( "#sortable-table" ).vcSortable({
 			placeholder: "test",
 			start: function( event, ui ) {
 				var currentWidths = otherBody.children().map(function() {

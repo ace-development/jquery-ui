@@ -25,9 +25,9 @@
 	}
 }(function( $ ) {
 
-return $.widget("ui.sortable", $.ui.mouse, {
+return $.vc_widget("vc-ui.vcSortable", $["vc-ui"].vcMouse, {
 	version: "1.11.4",
-	widgetEventPrefix: "sort",
+	widgetEventPrefix: "vc_sort",
 	ready: false,
 	options: {
 		appendTo: "parent",
@@ -78,7 +78,7 @@ return $.widget("ui.sortable", $.ui.mouse, {
 
 	_create: function() {
 		this.containerCache = {};
-		this.element.addClass("ui-sortable");
+		this.element.addClass("vc-ui-vcsortable");
 
 		//Get the items
 		this.refresh();
@@ -105,19 +105,19 @@ return $.widget("ui.sortable", $.ui.mouse, {
 	},
 
 	_setHandleClassName: function() {
-		this.element.find( ".ui-sortable-handle" ).removeClass( "ui-sortable-handle" );
+		this.element.find( ".vc-ui-vcsortable-handle" ).removeClass( "vc-ui-vcsortable-handle" );
 		$.each( this.items, function() {
 			( this.instance.options.handle ?
 				this.item.find( this.instance.options.handle ) : this.item )
-				.addClass( "ui-sortable-handle" );
+				.addClass( "vc-ui-vcsortable-handle" );
 		});
 	},
 
 	_destroy: function() {
 		this.element
-			.removeClass( "ui-sortable ui-sortable-disabled" )
-			.find( ".ui-sortable-handle" )
-				.removeClass( "ui-sortable-handle" );
+			.removeClass( "vc-ui-vcsortable vc-ui-vcsortable-disabled" )
+			.find( ".vc-ui-vcsortable-handle" )
+				.removeClass( "vc-ui-vcsortable-handle" );
 		this._mouseDestroy();
 
 		for ( var i = this.items.length - 1; i >= 0; i-- ) {
@@ -199,7 +199,7 @@ return $.widget("ui.sortable", $.ui.mouse, {
 		this._cacheMargins();
 
 		//Get the next scrolling parent
-		this.scrollParent = this.helper.scrollParent();
+		this.scrollParent = this.helper.vcScrollParent();
 
 		//The element's absolute position on the page minus margins
 		this.offset = this.currentItem.offset();
@@ -292,17 +292,17 @@ return $.widget("ui.sortable", $.ui.mouse, {
 		}
 
 		//Prepare possible droppables
-		if($.ui.ddmanager) {
-			$.ui.ddmanager.current = this;
+		if($["vc-ui"].ddmanager) {
+			$["vc-ui"].ddmanager.current = this;
 		}
 
-		if ($.ui.ddmanager && !o.dropBehaviour) {
-			$.ui.ddmanager.prepareOffsets(this, event);
+		if ($["vc-ui"].ddmanager && !o.dropBehaviour) {
+			$["vc-ui"].ddmanager.prepareOffsets(this, event);
 		}
 
 		this.dragging = true;
 
-		this.helper.addClass("ui-sortable-helper");
+		this.helper.addClass("vc-ui-vcsortable-helper");
 		this._mouseDrag(event); //Execute the drag once - this causes the helper not to be visible before getting its correct position
 		return true;
 
@@ -353,8 +353,8 @@ return $.widget("ui.sortable", $.ui.mouse, {
 
 			}
 
-			if(scrolled !== false && $.ui.ddmanager && !o.dropBehaviour) {
-				$.ui.ddmanager.prepareOffsets(this, event);
+			if(scrolled !== false && $["vc-ui"].ddmanager && !o.dropBehaviour) {
+				$["vc-ui"].ddmanager.prepareOffsets(this, event);
 			}
 		}
 
@@ -417,8 +417,8 @@ return $.widget("ui.sortable", $.ui.mouse, {
 		this._contactContainers(event);
 
 		//Interconnect with droppables
-		if($.ui.ddmanager) {
-			$.ui.ddmanager.drag(this, event);
+		if($["vc-ui"].ddmanager) {
+			$["vc-ui"].ddmanager.drag(this, event);
 		}
 
 		//Call callbacks
@@ -436,8 +436,8 @@ return $.widget("ui.sortable", $.ui.mouse, {
 		}
 
 		//If we are using droppables, inform the manager about the drop
-		if ($.ui.ddmanager && !this.options.dropBehaviour) {
-			$.ui.ddmanager.drop(this, event);
+		if ($["vc-ui"].ddmanager && !this.options.dropBehaviour) {
+			$["vc-ui"].ddmanager.drop(this, event);
 		}
 
 		if(this.options.revert) {
@@ -471,7 +471,7 @@ return $.widget("ui.sortable", $.ui.mouse, {
 			this._mouseUp({ target: null });
 
 			if(this.options.helper === "original") {
-				this.currentItem.css(this._storedCSS).removeClass("ui-sortable-helper");
+				this.currentItem.css(this._storedCSS).removeClass("vc-ui-vcsortable-helper");
 			} else {
 				this.currentItem.show();
 			}
@@ -647,13 +647,13 @@ return $.widget("ui.sortable", $.ui.mouse, {
 				for ( j = cur.length - 1; j >= 0; j--){
 					inst = $.data(cur[j], this.widgetFullName);
 					if(inst && inst !== this && !inst.options.disabled) {
-						queries.push([$.isFunction(inst.options.items) ? inst.options.items.call(inst.element) : $(inst.options.items, inst.element).not(".ui-sortable-helper").not(".ui-sortable-placeholder"), inst]);
+						queries.push([$.isFunction(inst.options.items) ? inst.options.items.call(inst.element) : $(inst.options.items, inst.element).not(".vc-ui-vcsortable-helper").not(".vc-ui-vcsortable-placeholder"), inst]);
 					}
 				}
 			}
 		}
 
-		queries.push([$.isFunction(this.options.items) ? this.options.items.call(this.element, null, { options: this.options, item: this.currentItem }) : $(this.options.items, this.element).not(".ui-sortable-helper").not(".ui-sortable-placeholder"), this]);
+		queries.push([$.isFunction(this.options.items) ? this.options.items.call(this.element, null, { options: this.options, item: this.currentItem }) : $(this.options.items, this.element).not(".vc-ui-vcsortable-helper").not(".vc-ui-vcsortable-placeholder"), this]);
 
 		function addItems() {
 			items.push( this );
@@ -668,7 +668,7 @@ return $.widget("ui.sortable", $.ui.mouse, {
 
 	_removeCurrentsFromItems: function() {
 
-		var list = this.currentItem.find(":data(" + this.widgetName + "-item)");
+		var list = this.currentItem.find(":vcData(" + this.widgetName + "-item)");
 
 		this.items = $.grep(this.items, function (item) {
 			for (var j=0; j < list.length; j++) {
@@ -785,8 +785,8 @@ return $.widget("ui.sortable", $.ui.mouse, {
 
 					var nodeName = that.currentItem[0].nodeName.toLowerCase(),
 						element = $( "<" + nodeName + ">", that.document[0] )
-							.addClass(className || that.currentItem[0].className+" ui-sortable-placeholder")
-							.removeClass("ui-sortable-helper");
+							.addClass(className || that.currentItem[0].className+" vc-ui-vcsortable-placeholder")
+							.removeClass("vc-ui-vcsortable-helper");
 
 					if ( nodeName === "tbody" ) {
 						that._createTrPlaceholder(
@@ -1008,7 +1008,7 @@ return $.widget("ui.sortable", $.ui.mouse, {
 
 		// This needs to be actually done for all browsers, since pageX/pageY includes this information
 		// with an ugly IE fix
-		if( this.offsetParent[0] === this.document[0].body || (this.offsetParent[0].tagName && this.offsetParent[0].tagName.toLowerCase() === "html" && $.ui.ie)) {
+		if( this.offsetParent[0] === this.document[0].body || (this.offsetParent[0].tagName && this.offsetParent[0].tagName.toLowerCase() === "html" && $["vc-ui"].ie)) {
 			po = { top: 0, left: 0 };
 		}
 
@@ -1212,7 +1212,7 @@ return $.widget("ui.sortable", $.ui.mouse, {
 					this._storedCSS[i] = "";
 				}
 			}
-			this.currentItem.css(this._storedCSS).removeClass("ui-sortable-helper");
+			this.currentItem.css(this._storedCSS).removeClass("vc-ui-vcsortable-helper");
 		} else {
 			this.currentItem.show();
 		}
@@ -1220,7 +1220,7 @@ return $.widget("ui.sortable", $.ui.mouse, {
 		if(this.fromOutside && !noPropagation) {
 			delayedTriggers.push(function(event) { this._trigger("receive", event, this._uiHash(this.fromOutside)); });
 		}
-		if((this.fromOutside || this.domPosition.prev !== this.currentItem.prev().not(".ui-sortable-helper")[0] || this.domPosition.parent !== this.currentItem.parent()[0]) && !noPropagation) {
+		if((this.fromOutside || this.domPosition.prev !== this.currentItem.prev().not(".vc-ui-vcsortable-helper")[0] || this.domPosition.parent !== this.currentItem.parent()[0]) && !noPropagation) {
 			delayedTriggers.push(function(event) { this._trigger("update", event, this._uiHash()); }); //Trigger update callback if the DOM position has changed
 		}
 
@@ -1292,7 +1292,7 @@ return $.widget("ui.sortable", $.ui.mouse, {
 	},
 
 	_trigger: function() {
-		if ($.Widget.prototype._trigger.apply(this, arguments) === false) {
+		if ($.vc_Widget.prototype._trigger.apply(this, arguments) === false) {
 			this.cancel();
 		}
 	},

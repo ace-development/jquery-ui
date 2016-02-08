@@ -14,6 +14,6 @@ table {
 	line-height: 1.4em;
 }
 
-.ui-draggable, .ui-droppable {
+.vc-ui-draggable, .vc-ui-droppable {
 	background-position: top;
 }

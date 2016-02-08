@@ -16,35 +16,35 @@
 	</style>
 	<script>
 	$(function() {
-		$( "ul.droptrue" ).sortable({
+		$( "ul.droptrue" ).vcSortable({
 			connectWith: "ul"
 		});
 
-		$( "ul.dropfalse" ).sortable({
+		$( "ul.dropfalse" ).vcSortable({
 			connectWith: "ul",
 			dropOnEmpty: false
 		});
 
-		$( "#sortable1, #sortable2, #sortable3" ).disableSelection();
+		$( "#sortable1, #sortable2, #sortable3" ).vcDisableSelection();
 	});
 	</script>
 </head>
 <body>
 
 <ul id="sortable1" class='droptrue'>
-	<li class="ui-state-default">Can be dropped..</li>
-	<li class="ui-state-default">..on an empty list</li>
-	<li class="ui-state-default">Item 3</li>
-	<li class="ui-state-default">Item 4</li>
-	<li class="ui-state-default">Item 5</li>
+	<li class="vc-ui-state-default">Can be dropped..</li>
+	<li class="vc-ui-state-default">..on an empty list</li>
+	<li class="vc-ui-state-default">Item 3</li>
+	<li class="vc-ui-state-default">Item 4</li>
+	<li class="vc-ui-state-default">Item 5</li>
 </ul>
 
 <ul id="sortable2" class='dropfalse'>
-	<li class="ui-state-highlight">Cannot be dropped..</li>
-	<li class="ui-state-highlight">..on an empty list</li>
-	<li class="ui-state-highlight">Item 3</li>
-	<li class="ui-state-highlight">Item 4</li>
-	<li class="ui-state-highlight">Item 5</li>
+	<li class="vc-ui-state-highlight">Cannot be dropped..</li>
+	<li class="vc-ui-state-highlight">..on an empty list</li>
+	<li class="vc-ui-state-highlight">Item 3</li>
+	<li class="vc-ui-state-highlight">Item 4</li>
+	<li class="vc-ui-state-highlight">Item 5</li>
 </ul>
 
 <ul id="sortable3" class='droptrue'>

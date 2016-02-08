@@ -1,4 +1,4 @@
-TestHelpers.commonWidgetTests( "sortable", {
+TestHelpers.commonWidgetTests( "vcSortable", {
 	defaults: {
 		appendTo: "parent",
 		axis: false,
